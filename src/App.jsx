@@ -174,6 +174,12 @@ function App() {
         className="date-input"
         />
 
+        {!dueDate && (
+          <span className="date-hint">
+            Please add date
+          </span>
+        )}
+
   </div>
  <div className="add-controls">
 
