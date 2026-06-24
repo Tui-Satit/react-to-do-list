@@ -24,7 +24,7 @@ function App() {
 
   const [newTask, setnewtask] = useState("");
   const [dueDate, setDueDate] = useState("");
-
+  
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [editingDueDate, setEditingDueDate] = useState("");

@@ -102,6 +102,12 @@ input {
   .task-stats {
     font-size: 18px;
   }
+
+  .add-row input,
+.add-row select {
+  flex: 1;
+  height: 46px;
+}
 }
 .light {
   min-height: 100vh;
