@@ -166,19 +166,22 @@ function App() {
          className="task-input"
       />
        
-      <input 
-        type="date"
-        placeholder="Add a Date"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="date-input"
-        />
-
+      
+    <div className="date-wrapper">
         {!dueDate && (
-          <span className="date-hint">
-            Please add date
+          <span className="date-placehoder">
+             📅 Please add date
           </span>
         )}
+
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          className="date-input"
+          />
+    </div>
+        
 
   </div>
  <div className="add-controls">
