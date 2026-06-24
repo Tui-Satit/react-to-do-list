@@ -171,8 +171,10 @@ function App() {
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
         />
-        
 
+  </div>
+ <div className="add-row">
+  
    <select 
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
