@@ -166,6 +166,7 @@ function App() {
        
       <input 
         type="date"
+        placeholder="Add a Date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
         />
