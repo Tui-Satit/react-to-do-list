@@ -145,17 +145,18 @@ function App() {
         {darkMode ? "Light Mode ☀️ " : "Dark Mode 🌙 "}
       </button>
     </div>
-
-    <div className="search-bar">
+   {/* 
+   <div className="search-bar">
         <input
         type="text"
         placeholder=" Search tasks..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         />
-     </div>
+     </div> 
+   */}
 
-     <div className="add-task">
+     <div className="add-row">
 
        <input
          type="text" 
@@ -302,7 +303,7 @@ function App() {
                 </div>
              </span>
 
-             <div className="task-buttons">
+     <div className="task-actions">
           <button
                   onClick={() => {
                     setEditingIndex(realIndex);
@@ -318,7 +319,7 @@ function App() {
 
                    <button onClick={() =>  deleteTask(realIndex)}>Delete</button>
                    <button onClick={() => toggleCompleted(realIndex)}>Done </button>
-             </div>
+         </div>
            </> 
             )}
           </li>
