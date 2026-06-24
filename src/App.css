@@ -364,12 +364,20 @@ ul {
   padding: 12px;
 }
 
-.add-row input[type="text"] {
+.input-row {
+  display: flex;
+  align-items: center;
+  gap:  10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.task-input{
  flex: 2;
  min-width: 0;
 }
 
-.add-row input[type="date"] {
+.date-input{
  flex: 1;
  min-width: 140px;
 }

@@ -156,13 +156,14 @@ function App() {
      </div> 
    */}
 
-     <div className="add-row">
+     <div className="input-row">
 
        <input
          type="text" 
          placeholder="Add a task..."
          value={newTask}
          onChange={(e) => setnewtask(e.target.value)}
+         className="task-input"
       />
        
       <input 
@@ -170,6 +171,7 @@ function App() {
         placeholder="Add a Date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
+        className="date-input"
         />
 
   </div>
