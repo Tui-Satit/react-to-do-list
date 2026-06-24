@@ -107,6 +107,10 @@ input {
 .add-row select {
   flex: 1;
   height: 46px;
+
+  .add-controls {
+    flex-direction: row;
+  }
 }
 }
 .light {
@@ -357,4 +361,20 @@ ul {
     font-size: 14px;
     padding: 8px 4px;
   }
+}
+.add-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.add-controls select {
+  width: 35%;
+  padding: 12px;
+}
+
+.add-controls button {
+  flex: 1;
+  padding: 12px;
 }

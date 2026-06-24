@@ -173,8 +173,8 @@ function App() {
         />
 
   </div>
- <div className="add-row">
-  
+ <div className="add-controls">
+
    <select 
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
