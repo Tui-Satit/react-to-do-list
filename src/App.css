@@ -375,7 +375,7 @@ ul {
 .task-input{
  flex: 2;
  min-width: 0;
- font-size: 20px;
+ font-size: 16px;
  padding: 3px;
 }
 
@@ -406,7 +406,7 @@ ul {
 
 .date-wrapper {
   position: relative ;
-  width: 180px;
+  width: 150px;
 }
 
 .date-input {
