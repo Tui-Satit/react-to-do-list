@@ -168,6 +168,7 @@ function App() {
      <div className="title-row">
 
        <input
+         className="task-title-input"
          type="text" 
          placeholder="Task Title"
          onFocus={(e) => {
