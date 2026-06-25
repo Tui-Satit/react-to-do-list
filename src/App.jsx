@@ -39,23 +39,25 @@ function App() {
 
   function addTask() {
     if (!newTitle.trim()) return;
+   
+    const newItem = {
+      title: newTitle,
+      description: newDescription,
+      dueDate,
+      priority,
+      completed: false,
+    };
     
-    setTasks([
-      ...tasks,
-      {
-        title: newTitle,
-        description: newDescription,
-        dueDate: dueDate,
-        priority: priority,
-        completed: false,
-      },
-    ]);
+    setTasks([...tasks, newItem]);
 
     setNewTitle("");
+
     setNewDescription("");
     setDueDate("");
-    setPriority("Medium")
-    showToast("Task added  ✅ ");
+    setPriority("Medium");
+
+    showToast("Task added ✅");
+
   }
 
    
@@ -171,12 +173,8 @@ function App() {
          className="task-title-input"
          type="text" 
          placeholder="Task Title"
-         onFocus={(e) => {
-          e.target.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-         }}
+         value={newTitle}
+         onChange={(e) => setNewTitle(e.target.value)}
         
         />
 
