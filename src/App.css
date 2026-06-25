@@ -111,6 +111,33 @@ input {
     flex-direction: row;
   }
 
+  .input-row {
+       flex-direction: column;
+  }
+
+  .title-input,
+  .description-input,
+  .date-wrapper,
+  .add-btn {
+    width: 100%;
+  }
+
+  .input-row {
+    flex-direction: row;
+  }
+
+  .action-row {
+    flex-direction: row;
+  }
+
+  .bottom-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .bottom-row .add-btn {
+    width: 100%;
+  }
 }
 .light {
   min-height: 100vh;
@@ -257,11 +284,6 @@ ul {
  width: 100%;
 }
 
-
-
-
-
-
 .add-btn {
   background: #2563eb;
   color: white;
@@ -366,10 +388,8 @@ ul {
 
 .input-row {
   display: flex;
-  align-items: center;
-  gap:  10px;
-  width: 100%;
-  margin-bottom: 15px;
+  gap:  12px;
+  margin-bottom: 12px;
 }
 
 .task-input{
@@ -389,11 +409,6 @@ ul {
   flex: 1;
 }
 
-.date-input {
-  width: 100%;
-  height: 50px;
-}
-
 .date-hint {
   position: absolute;
   left: 14px;
@@ -405,8 +420,7 @@ ul {
 }
 
 .date-wrapper {
-  position: relative ;
-  width: 150px;
+  flex: 1;
 }
 
 .date-input {
@@ -414,8 +428,9 @@ ul {
   height: 50px;
   border-radius: 12px;
   background: #f2f2f2;
-  color: transparent;
+  color: #111;
   position: relative;
+  padding-left: 24px;
 }
 
 .date-placeholder {
@@ -427,4 +442,121 @@ ul {
   pointer-events: none;
   font-size: 14px;
 }
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.task-description {
+  color: #555;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  white-space: pre-line;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.title-input {
+  flex: 1;
+  height: 48px;
+}
+
+.description-input {
+  flex: 2;
+  min-height: 48px;
+  resize: none;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.action-row select {
+  width: 140px;
+  height: 48px;
+}
+
+.add-btn {
+  flex: 1;
+  height: 48px;
+}
+
+.date-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.date-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.action-row select {
+  flex: 1;
+  height: 48;
+}
+
+.add-btn {
+  flex: 1;
+  height: 48;
+}
+
+.action-row{
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.date-wrapper {
+  flex: 2;
+}
+
+.action-row select {
+  width: 150px;
+}
+
+.bottom-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.bottom-row .add-btn {
+  width: 100px;
+}
+
+.bottom-row button:not(.add-btn) {
+  padding: 8px 16px;
+}
+
+
 

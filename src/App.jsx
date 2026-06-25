@@ -22,7 +22,8 @@ function App() {
 }, [tasks]);
 
 
-  const [newTask, setnewtask] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   
   const [editingIndex, setEditingIndex] = useState(null);
@@ -37,20 +38,23 @@ function App() {
 
 
   function addTask() {
-    if (!newTask.trim()) return;
+    if (!newTitle.trim()) return;
     
     setTasks([
       ...tasks,
       {
-        text: newTask,
+        title: newTitle,
+        description: newDescription,
+        dueDate: dueDate,
+        priority: priority,
         completed: false,
-        dueDate,
-        priority,
       },
     ]);
 
-    setnewtask("");
+    setNewTitle("");
+    setNewDescription("");
     setDueDate("");
+    setPriority("Medium")
     showToast("Task added  ✅ ");
   }
 
@@ -74,7 +78,7 @@ function App() {
 
     updatedTasks[indexToSave] = {
       ...updatedTasks[indexToSave],
-      text: editingText,
+      title: editingText,
       dueDate: editingDueDate,
       priority: editingPriority,
     };
@@ -112,10 +116,15 @@ function App() {
   const filteredTasks = tasks.filter((task) => {
     if (filter === "active" && task.completed ) return false;
     if (filter === "completed" && !task.completed) return false;
+    
+    const title = task.title || task.text || "";
+    const description = task.description || "";
 
-    return task.text
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
+    return (
+       title.toLowerCase().includes(searchText.toLowerCase()) ||
+      description.toLowerCase().includes(searchText.toLowerCase())
+    );
+      
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
@@ -160,16 +169,26 @@ function App() {
 
        <input
          type="text" 
-         placeholder="Add a task..."
-         value={newTask}
-         onChange={(e) => setnewtask(e.target.value)}
-         className="task-input"
+         placeholder="Task Title"
+         value={newTitle}
+         onChange={(e) => setNewTitle(e.target.value)}
+         className="title-input"
+        />
+
+      <textarea 
+        placeholder="Task Description"
+        value={newDescription}
+        onChange={(e) => setNewDescription(e.target.value)}
+        rows={1}
+        className="description-input"
+        
       />
-       
-      
-    <div className="date-wrapper">
+     </div>
+
+     <div className="action-row">
+      <div className="date-wrapper">
         {!dueDate && (
-          <span className="date-placehoder">
+          <span className="date-placeholder">
              📅 Please add date
           </span>
         )}
@@ -182,11 +201,7 @@ function App() {
           />
     </div>
         
-
-  </div>
- <div className="add-controls">
-
-   <select 
+      <select 
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
         >
@@ -194,14 +209,13 @@ function App() {
          <option>Medium</option>
          <option>Low</option>
       </select>
+</div>
+  
+    
+
+     <div className="bottom-row">
 
        <button className="add-btn" onClick={addTask}>Add</button>
-
-     </div>
-
-     <div className="stats">
-
-      
       <button 
         className={filter === "all" ? "active-filter" : ""}
       onClick={() => setFilter("all")}>
@@ -219,7 +233,7 @@ function App() {
          onClick={() => setFilter("completed")}>
           Completed
       </button>  
-
+         
      </div>
 
      
@@ -267,6 +281,16 @@ function App() {
 
           <li key={realIndex} className={`task-card ${task.completed ? "completed-card" : ""}`}
           >
+
+            <h3 className={task.completed ? "completed" : "" }>
+              {task.title}
+            </h3>
+
+            {task.description && (
+              <p className="task-description">
+                {task.description}
+              </p>
+            )}
             {editingIndex === realIndex ? (
               <>
                 <input
@@ -286,9 +310,12 @@ function App() {
                  }}
               >
                 <div>
-                  <strong style={{ color: isOverdue ? "red" : "inherit" }}>
-                    {task.text}
+                  {/*
+                   <strong style={{ color: isOverdue ? "red" : "inherit" }}>
+                    {task.title}
                     </strong>
+                   */}
+                  
  
                   {task.dueDate && <div> 📅  {task.dueDate}</div>}
                    {task.priority && (
@@ -320,7 +347,7 @@ function App() {
           <button
                   onClick={() => {
                     setEditingIndex(realIndex);
-                    setEditingText(task.text);
+                    setEditingText(task.title || task.text || "");
                     setEditingDueDate(task.dueDate || "");
                     setEditingPriority(task.priority || "Medium");
                   }}
