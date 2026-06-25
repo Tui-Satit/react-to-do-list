@@ -386,10 +386,27 @@ ul {
   padding: 12px;
 }
 
-.input-row {
-  display: flex;
-  gap:  12px;
+.title-row,
+.description-row {
+  width: 100%;
   margin-bottom: 12px;
+ 
+}
+
+.title-row {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.title-row input,
+.description-row textarea {
+  width: 100%;
+}
+
+.description-row textarea {
+  resize: vertical;
+  min-height: 50px;
+  border-radius: 10px;
 }
 
 .task-input{
@@ -443,42 +460,16 @@ ul {
   font-size: 14px;
 }
 
-textarea {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  resize: vertical;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-  font-family: inherit;
-}
 
-.task-description {
-  color: #555;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  white-space: pre-line;
-}
+
+
 
 .completed {
   text-decoration: line-through;
   opacity: 0.6;
 }
 
-.title-input {
-  flex: 1;
-  height: 48px;
-}
 
-.description-input {
-  flex: 2;
-  min-height: 48px;
-  resize: none;
-}
 
 .action-row {
   display: flex;
@@ -501,11 +492,7 @@ textarea {
   flex: 1;
 }
 
-.input-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-}
+
 
 .action-row {
   display: flex;

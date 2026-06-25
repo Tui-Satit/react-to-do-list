@@ -165,22 +165,25 @@ function App() {
      </div> 
    */}
 
-     <div className="input-row">
+     <div className="title-row">
 
        <input
          type="text" 
          placeholder="Task Title"
          value={newTitle}
          onChange={(e) => setNewTitle(e.target.value)}
-         className="title-input"
+        
         />
 
+        </div>
+
+    <div className="description-row">
       <textarea 
         placeholder="Task Description"
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
         rows={1}
-        className="description-input"
+       
         
       />
      </div>
