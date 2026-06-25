@@ -170,8 +170,12 @@ function App() {
        <input
          type="text" 
          placeholder="Task Title"
-         value={newTitle}
-         onChange={(e) => setNewTitle(e.target.value)}
+         onFocus={(e) => {
+          e.target.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+         }}
         
         />
 
