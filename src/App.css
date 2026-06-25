@@ -293,10 +293,26 @@ ul {
 }
 
 .date-priority-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 12px;
-  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.date-priority-row input {
+  width: 70%;
+}
+
+.date-priority-row select {
+  width: 30%;
+}
+
+.task-title {
+  font-size: 1.7rem;
+}
+
+.task-description {
+  font-size: 1rem;
 }
 
 .add-btn {
@@ -408,11 +424,6 @@ ul {
  
 }
 
-.title-row {
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .title-row input,
 .description-row textarea {
   width: 100%;
@@ -421,7 +432,8 @@ ul {
 .description-row textarea {
   resize: vertical;
   min-height: 50px;
-  border-radius: 10px;
+  border-radius: 5px;
+
 }
 
 .task-input{
