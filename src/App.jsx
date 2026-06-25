@@ -188,21 +188,14 @@ function App() {
       />
      </div>
 
-     <div className="action-row">
-      <div className="date-wrapper">
-        {!dueDate && (
-          <span className="date-placeholder">
-             📅 Please add date
-          </span>
-        )}
-
+     <div className="date-priority-row">
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
           className="date-input"
           />
-    </div>
+    
         
       <select 
         value={priority}
