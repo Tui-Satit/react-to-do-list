@@ -282,7 +282,13 @@ function App() {
           >
 
             <h3 className={task.completed ? "completed" : "" }>
-              {task.title}
+                {
+                   <strong style={{ color: isOverdue ? "red" : "inherit" }}>
+                    {task.title}
+                    </strong>
+                   }
+                  
+             
             </h3>
 
             {task.description && (
@@ -309,12 +315,7 @@ function App() {
                  }}
               >
                 <div>
-                  {/*
-                   <strong style={{ color: isOverdue ? "red" : "inherit" }}>
-                    {task.title}
-                    </strong>
-                   */}
-                  
+                
  
                   {task.dueDate && <div> 📅  {task.dueDate}</div>}
                    {task.priority && (
