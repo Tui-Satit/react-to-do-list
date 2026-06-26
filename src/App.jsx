@@ -206,16 +206,21 @@ function App() {
       />
      </div>
 
-     <div className="date-priority-row">
+     <div className="date-priority-row">  
+        <div className="date-wrapper">
+          {!dueDate && <span className="date-placeholder">Please add due date</span>}
+        
+    
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
         
           />
-    
+        </div> 
+         
         
-      <select 
+       <select 
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
         >
@@ -223,6 +228,7 @@ function App() {
          <option>Medium</option>
          <option>Low</option>
       </select>
+
 </div>
   
     
