@@ -533,6 +533,16 @@ ul {
   font-size: 16px;
 }
 
+.task-overdue {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.task-today {
+  color: #22c55e;
+  font-weight: bold;
+}
+
 
 
 

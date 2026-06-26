@@ -307,15 +307,16 @@ function App() {
              }`}
           >
 
-            <h3 className={task.completed ? "completed" : "" }>
-                {
-                   <strong style={{ color: isOverdue ? "red" : "inherit" }}>
+            <h3 className={
+              isOverdue
+               ? "task-overdue"
+               : isDueToday
+               ? "task-today"
+               : ""
+            }
+                   >
                     {task.title}
-                    </strong>
-                   }
-                  
-             
-            </h3>
+             </h3>
 
             {task.description && (
               <p className="task-description">
