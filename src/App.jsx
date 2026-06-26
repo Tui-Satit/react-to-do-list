@@ -11,9 +11,9 @@ function App() {
     }
 
     return [
-      { text: "Learn React", completed: false },
-      { text: "Build To-Do App", completed: false },
-      { text: "Deploy to Vercel", completed: false },
+    //  { text: " ", completed: false }, 
+     
+      
     ];
   });
 
@@ -35,6 +35,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [priority, setPriority] = useState("Medium");
   const [toast, setToast] = useState("")
+
+  
 
 
   function addTask() {
@@ -130,8 +132,12 @@ function App() {
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
+     if (a.completed !== b.completed ) {
+      return a.completed ? 1 : -1;
+     }
+
+     if (!a.dueDate) return 1;
+     if (!b.dueDate) return -1;
 
     return new Date(a.dueDate) - new Date(b.dueDate);
   });
@@ -141,6 +147,15 @@ function App() {
           const completedTasks = tasks.filter((task) => task.completed).length;
 
           const activeTasks = tasks.filter((task) => !task.completed).length;
+
+  function getDayName(dateString) {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "long"
+    });
+  }
 
 
   
@@ -258,7 +273,7 @@ function App() {
         </p>
        )}
         
-        {sortedTasks.map((task) => {
+        {sortedTasks.map((task, index) => {
           const realIndex = tasks.indexOf(task);
           
           const today = new Date().toISOString().split("T")[0];
@@ -278,7 +293,12 @@ function App() {
 
             
 
-          <li key={realIndex} className={`task-card ${task.completed ? "completed-card" : ""}`}
+          <li key={realIndex} className={`task-card ${
+            task.completed ? "completed-card" 
+            : index % 2 === 0
+            ? "white-card"
+            : "brown-card" 
+             }`}
           >
 
             <h3 className={task.completed ? "completed" : "" }>
@@ -317,7 +337,12 @@ function App() {
                 <div>
                 
  
-                  {task.dueDate && <div> 📅  {task.dueDate}</div>}
+                  {task.dueDate && (
+                    <div> 
+                      📅  {task.dueDate} {getDayName(task.dueDate)} 
+                    </div>
+                  )}
+
                    {task.priority && (
                    <div
                      style={{
@@ -339,6 +364,8 @@ function App() {
                          📌  Due Today
                       </div>
                       )}
+                  
+            
                      
                 </div>
              </span>

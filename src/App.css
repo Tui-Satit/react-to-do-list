@@ -589,5 +589,24 @@ select {
   height: 42px;
 }
 
+.taks-card:nth-child(odd) {
+  background: #ffffff;
+}
+
+.taks-card:nth-child(even) {
+  background: #f3e6d8;
+}
+
+.task-card.completed-card {
+  background: #d8f3dc;
+}
+
+.white-card {
+  background-color: white;
+}
+
+.brown-card {
+  background-color: #eee6de;
+}
 
 
