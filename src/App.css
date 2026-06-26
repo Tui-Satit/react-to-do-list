@@ -212,6 +212,8 @@ input {
    width: 100%;
 }
 
+
+
 .add-task {
   display: flex;
   flex-wrap: wrap;
@@ -298,6 +300,7 @@ ul {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  background-color:  #eee6de;;
 }
 
 .add-row {
@@ -630,7 +633,7 @@ select {
 }
 
 .taks-card:nth-child(even) {
-  background: #f3e6d8;
+  background: #f1eae1;
 }
 
 .task-card.completed-card {
