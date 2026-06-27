@@ -29,12 +29,13 @@ function App() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [editingDueDate, setEditingDueDate] = useState("");
-  const [editingPriority, setEditingPriority] = useState("Medium");
+  const [editingPriority, setEditingPriority] = useState("สำคัญปานกลาง");
   const [filter, setFilter] = useState("all");
   const [searchText, setSearchText] = useState("");
   const [darkMode, setDarkMode] = useState(false);
-  const [priority, setPriority] = useState("Medium");
-  const [toast, setToast] = useState("")
+  const [priority, setPriority] = useState("สำคัญปานกลาง");
+  const [toast, setToast] = useState("");
+  const [editingDescription, setEditingDescription] = useState("");
 
   
 
@@ -56,7 +57,7 @@ function App() {
 
     setNewDescription("");
     setDueDate("");
-    setPriority("Medium");
+    setPriority("สำคัญปานกลาง");
 
     showToast("Task added ✅");
 
@@ -65,12 +66,18 @@ function App() {
    
 
   function deleteTask(indexToDelete) {
+    const confirmDelete = window.confirm(
+      "🚮 ยืนยัน ลบ"
+    );
+
+    if (!confirmDelete) return;
+
     const updatedTasks = tasks.filter(
       (_, index) => index !== indexToDelete
     );
 
     setTasks(updatedTasks);
-    showToast("Task deleted  🗑️");
+    showToast("ลบกิจกรรมเรียบร้อย 🗑️");
   }
 
   
@@ -83,6 +90,7 @@ function App() {
     updatedTasks[indexToSave] = {
       ...updatedTasks[indexToSave],
       title: editingText,
+      description: editingDescription,
       dueDate: editingDueDate,
       priority: editingPriority,
     };
@@ -91,8 +99,9 @@ function App() {
     setTasks(updatedTasks);
     setEditingIndex(null);
     setEditingText("");
+    setEditingDescription("");
     setEditingDueDate("");
-    setEditingPriority("Medium");
+    setEditingPriority("สำคัญปานกลาง");
   }
 
    function toggleCompleted(indexToCompleted)  {
@@ -157,19 +166,21 @@ function App() {
     });
   }
 
-
+/*
+ <button onClick={() => setDarkMode(!darkMode)}>
+        {darkMode ? "Light Mode ☀️ " : "Dark Mode 🌙 "}
+      </button>
+*/
   
   return (
     <div className={darkMode ? "dark" : "light"} >
-      <h1>My To-Do List</h1>
-
+   
+   
   {toast && <div className="toast">{toast}</div>}
 
   <div className="controls">
  <div className="toolbar">
-        <button onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "Light Mode ☀️ " : "Dark Mode 🌙 "}
-      </button>
+          <h2>My To Do List</h2>
     </div>
    {/* 
    <div className="search-bar">
@@ -187,7 +198,7 @@ function App() {
        <input
          className="task-title-input"
          type="text" 
-         placeholder="Task Title"
+         placeholder="ชื่อ กิจกรรม"
          value={newTitle}
          onChange={(e) => setNewTitle(e.target.value)}
         
@@ -197,10 +208,10 @@ function App() {
 
     <div className="description-row">
       <textarea 
-        placeholder="Task Description"
+        placeholder="รายละเอียด"
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
-        rows={1}
+        rows={3}
        
         
       />
@@ -208,7 +219,7 @@ function App() {
 
      <div className="date-priority-row">  
         <div className="date-wrapper">
-          {!dueDate && <span className="date-placeholder">Please add due date</span>}
+          {!dueDate && <span className="date-placeholder">เลือกวัน</span>}
         
     
         <input
@@ -224,9 +235,9 @@ function App() {
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
         >
-         <option>High</option>
-         <option>Medium</option>
-         <option>Low</option>
+         <option>สำคัญมาก</option>
+         <option>สำคัญปานกลาง</option>
+         <option>สำคัญน้อย</option>
       </select>
 
 </div>
@@ -235,23 +246,23 @@ function App() {
 
      <div className="bottom-row">
 
-       <button className="add-btn" onClick={addTask}>Add</button>
+       <button className="add-btn" onClick={addTask}>ส่งกิจกรรม</button>
       <button 
         className={filter === "all" ? "active-filter" : ""}
       onClick={() => setFilter("all")}>
-          All
+          ทั้งหมด
       </button>  
 
       <button 
           className={filter === "active" ? "active-filter" : ""}
       onClick={() => setFilter("active")}>
-          Active
+          กำลังจะทำ
       </button>
 
       <button 
           className={filter === "completed" ? "active-filter" : ""}
          onClick={() => setFilter("completed")}>
-          Completed
+          เสร็จแล้ว
       </button>  
          
      </div>
@@ -262,9 +273,9 @@ function App() {
 
 
       <p>
-                Total: {totalTasks} |
-                Active: {activeTasks} |
-                Completed: {completedTasks}
+                ทั้งหมด: {totalTasks} |
+                กำลังจะทำ: {activeTasks} |
+                เสร็จแล้ว: {completedTasks}
             </p>
 
 
@@ -275,7 +286,7 @@ function App() {
       <ul>
        {sortedTasks.length === 0 && (
         <p className="empty-state">
-            📝 No tasks found.
+            📝 ไม่มีกิจกรรม
         </p>
        )}
         
@@ -330,8 +341,29 @@ function App() {
                   onChange={(e) => setEditingText(e.target.value)}
                   />
 
+                  <textarea 
+                     value={editingDescription}
+                     onChange={(e) => setEditingDescription(e.target.value)}
+                     rows={2}
+                  />
+
+                  <input 
+                    type="date"
+                    value={editingDueDate}
+                    onChange={(e) => setEditingDueDate(e.target.value)}
+                    />
+
+                  <select
+                    value={editingPriority}
+                    onChange={(e) => setEditingPriority(e.target.value)}
+                    >
+                      <option>สำคัญมาก</option>
+                      <option>สำคัญปานกลาง</option>
+                      <option>สำคัญน้อย</option>
+                    </select>
+
                   <button onClick={() => saveTask(realIndex)}>
-                    Save
+                    บันทึก
                   </button>
               </>
             ):(
@@ -354,9 +386,9 @@ function App() {
                    <div
                      style={{
                       color:
-                        task.priority === "High"
+                        task.priority === "สำคัญมาก"
                         ? "red"
-                        : task.priority === "Medium"
+                        : task.priority === "สำคัญปานกลาง"
                         ? "orange"
                         : "green",
                         fontWeight: "bold",
@@ -368,7 +400,7 @@ function App() {
 
                       {isDueToday && (
                       <div className="due-today">
-                         📌  Due Today
+                         📌  ต้องทำวันนี้
                       </div>
                       )}
                   
@@ -382,17 +414,18 @@ function App() {
                   onClick={() => {
                     setEditingIndex(realIndex);
                     setEditingText(task.title || task.text || "");
+                    setEditingDescription(task.description || "");
                     setEditingDueDate(task.dueDate || "");
-                    setEditingPriority(task.priority || "Medium");
+                    setEditingPriority(task.priority || "สำคัญปานกลาง");
                   }}
              >
-              Edit
+              แก้ไข
 
              </button>
            
 
-                   <button onClick={() =>  deleteTask(realIndex)}>Delete</button>
-                   <button onClick={() => toggleCompleted(realIndex)}>Done </button>
+                   <button onClick={() =>  deleteTask(realIndex)}>ลบ</button>
+                   <button onClick={() => toggleCompleted(realIndex)}>ทำแล้ว </button>
          </div>
            </> 
             )}
