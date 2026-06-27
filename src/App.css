@@ -658,4 +658,57 @@ select {
   background-color: #eee6de;
 }
 
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.15);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.dialog-box {
+  width: 320px;
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,.3);
+  animation: pop .2s ease;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px ;
+}
+
+.dialog-buttons button {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 
