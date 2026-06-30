@@ -35,7 +35,7 @@ function App() {
   const [editingDescription, setEditingDescription] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
-  const [openTasks, setOpenTasks] = useState([null]);
+  const [openTasks, setOpenTasks] = useState([]);
 
   function toggleCollapse(index) {
     setOpenTasks((prev) =>
@@ -146,23 +146,30 @@ function App() {
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
 
-    if (a.pinned !== b.pinned) {
+    if (a.completed !== b.completed) {
+      return a.completed ? 1 : -1;
+    }
+
+    if (!a.completed && b.completed && a.pinned !== b.pinned) {
       return b.pinned - a.pinned;
     }
 
-    if (a.completed !== b.completed) {
-      return a.completed ? 1 : -1;
+    if (a.completed && b.completed && a.pinned !== b.pinned) {
+      return b.pinned - a.pinned;
     }
 
 
     return 0;
   });
 
+    const activeTasks = sortedTasks.filter(task => !task.completed);
+    const completdTasksList = sortedTasks.filter(task => task.completed);
+
   const totalTasks = tasks.length;
 
   const completedTasks = tasks.filter((task) => task.completed).length;
 
-  const activeTasks = tasks.filter((task) => !task.completed).length;
+  const activeCount = tasks.filter((task) => !task.completed).length;
 
   function getDayName(dateString) {
     if (!dateString) return "";
@@ -279,7 +286,7 @@ function App() {
         </div>
 
         <p>
-          ทั้งหมด: {totalTasks} | กำลังจะทำ: {activeTasks} | เสร็จแล้ว:{" "}
+          ทั้งหมด: {totalTasks} | กำลังจะทำ: {activeCount} | เสร็จแล้ว:{" "}
           {completedTasks}
         </p>
       </div>
@@ -298,6 +305,8 @@ function App() {
             task.dueDate && task.dueDate < today && !task.completed;
 
           const isDueToday = task.dueDate === today && !task.completed;
+
+        
 
           return (
             <li
@@ -320,10 +329,10 @@ function App() {
                     isOverdue ? "task-overdue" : isDueToday ? "task-today" : ""
                   }
                 >
-                  {task.title}
+                  {task.title || task.text || "ไม่มีชื่อกิจกรรม"}
                 </h3>
 
-                 <button onClick={() => togglePin(realIndex)}>
+                 <button className="pin-btn" onClick={() => togglePin(realIndex)}>
                   {task.pinned ? " 📌ถอนหมุด" : "📍ปักหมุด"}
                 </button>
 
