@@ -468,15 +468,8 @@ ul {
  padding: 3px;
 }
 
-.date-input{
- flex: 1;
- min-width: 140px;
-}
 
-.date-box {
-  position: relative;
-  flex: 1;
-}
+
 
 .date-hint {
   position: absolute;
@@ -503,9 +496,9 @@ ul {
 }
 
 .date-wrapper input {
-  background-color: #eee6de;
+  
   border-radius: 15px;
-  width: 100%;
+  width: 80%;
   height: 40px;
   text-align: right;
  
@@ -515,7 +508,7 @@ ul {
 .date-placeholder {
   
   position: absolute;
-  left: 15px;
+  left: 55px;
   top: 50%;
   transform: translateY(-50%);
   color: #999;
@@ -709,6 +702,41 @@ select {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-header h3 {
+  margin: 0;
+  flex: 1;
+}
+
+.collapse-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.app-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.title-icon {
+  color: #ff7b54;
+  font-size: 48px;
 }
 
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { FaClipboardList } from "react-icons/fa";
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -34,6 +35,16 @@ function App() {
   const [editingDescription, setEditingDescription] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [openTasks, setOpenTasks] = useState([null]);
+
+  function toggleCollapse(index) {
+    setOpenTasks((prev) => 
+      prev.includes(index)
+       ? prev.filter((item) => item !== index)
+       : [...prev, index]
+      
+);
+  }
 
   function addTask() {
     if (!newTitle.trim()) return;
@@ -165,7 +176,10 @@ function App() {
 
       <div className="controls">
         <div className="toolbar">
-          <h2>My To Do List</h2>
+          <h2 className="app-title"> 
+            <FaClipboardList className="title-icon"/>
+              My To Do
+            </h2>
         </div>
         {/* 
    <div className="search-bar">
@@ -220,7 +234,7 @@ function App() {
 
         <div className="bottom-row">
           <button className="add-btn" onClick={addTask}>
-            ส่งกิจกรรม
+            บันทึกกิจกรรม
           </button>
           <button
             className={filter === "all" ? "active-filter" : ""}
@@ -276,6 +290,7 @@ function App() {
                     : "brown-card"
               }`}
             >
+            <div className="task-header">
               <h3
                 className={
                   isOverdue ? "task-overdue" : isDueToday ? "task-today" : ""
@@ -284,7 +299,19 @@ function App() {
                 {task.title}
               </h3>
 
-              {task.description && (
+               <button 
+                 className="collapse-btn"
+                 onClick={() => toggleCollapse(realIndex)}
+                 >
+                   {openTasks.includes(realIndex) ? "▼" : "▶"}
+               </button>
+             </div>
+
+             {openTasks.includes(realIndex) && (
+              <>
+                {task.description && (
+                  <> 
+                     {task.description && (
                 <p className="task-description">{task.description}</p>
               )}
               {editingIndex === realIndex ? (
@@ -378,6 +405,12 @@ function App() {
                       ทำแล้ว{" "}
                     </button>
                   </div>
+            </>
+                )}
+            </>
+             )}
+
+            
                 </>
               )}
             </li>
