@@ -38,13 +38,30 @@ function App() {
   const [openTasks, setOpenTasks] = useState([null]);
 
   function toggleCollapse(index) {
-    setOpenTasks((prev) => 
+    setOpenTasks((prev) =>
       prev.includes(index)
-       ? prev.filter((item) => item !== index)
-       : [...prev, index]
-      
-);
+        ? prev.filter((item) => item !== index)
+        : [...prev, index],
+    );
   }
+
+  function togglePin(indexToPin) {
+     const selectedTask = tasks[indexToPin];
+
+     const updatedTask = {
+      ...selectedTask,
+      pinned: !selectedTask.pinned,
+     };
+
+     const otherTasks = tasks.filter((_, index) => index !== indexToPin);
+
+     if (updatedTask.pinned) {
+      setTasks([updatedTask, ...otherTasks]);
+     } else {
+      setTasks([...otherTasks, updatedTask]);
+     }
+
+    }
 
   function addTask() {
     if (!newTitle.trim()) return;
@@ -55,7 +72,12 @@ function App() {
       dueDate,
       priority,
       completed: false,
+      pinned: false,
     };
+
+   
+
+    
 
     setTasks([...tasks, newItem]);
 
@@ -68,7 +90,6 @@ function App() {
     showToast("Task added ✅");
   }
 
-  
   function saveTask(indexToSave) {
     if (!editingText.trim()) return;
 
@@ -124,14 +145,17 @@ function App() {
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
+
+    if (a.pinned !== b.pinned) {
+      return b.pinned - a.pinned;
+    }
+
     if (a.completed !== b.completed) {
       return a.completed ? 1 : -1;
     }
 
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
 
-    return new Date(a.dueDate) - new Date(b.dueDate);
+    return 0;
   });
 
   const totalTasks = tasks.length;
@@ -150,16 +174,14 @@ function App() {
   }
 
   function confirmDelete() {
-    const updatedTasks = tasks.filter(
-      (_, index) => index !== taskToDelete
-    );
+    const updatedTasks = tasks.filter((_, index) => index !== taskToDelete);
 
     setTasks(updatedTasks);
 
     setShowConfirm(false);
     setTaskToDelete(null);
 
-    showToast("Task deleted 🚮")
+    showToast("Task deleted 🚮");
   }
 
   /*
@@ -170,16 +192,14 @@ function App() {
 
   return (
     <div className={darkMode ? "dark" : "light"}>
-      {toast && <div className="toast">{toast}
-        
-    </div>}
+      {toast && <div className="toast">{toast}</div>}
 
       <div className="controls">
         <div className="toolbar">
-          <h2 className="app-title"> 
-            <FaClipboardList className="title-icon"/>
-              My To Do
-            </h2>
+          <h2 className="app-title">
+            <FaClipboardList className="title-icon" />
+            My To Do
+          </h2>
         </div>
         {/* 
    <div className="search-bar">
@@ -282,135 +302,172 @@ function App() {
           return (
             <li
               key={realIndex}
-              className={`task-card ${
-                task.completed
-                  ? "completed-card"
+              className={`task-card  ${
+                task.pinned ? "pinned-card" : ""
+              } ${
+                task.completed ? "completed-card" : ""
+              /* /* ? "completed-card"
                   : index % 2 === 0
                     ? "white-card"
-                    : "brown-card"
+                    : "brown-card"  */
               }`}
             >
-            <div className="task-header">
-              <h3
-                className={
-                  isOverdue ? "task-overdue" : isDueToday ? "task-today" : ""
-                }
-              >
-                {task.title}
-              </h3>
 
-               <button 
-                 className="collapse-btn"
-                 onClick={() => toggleCollapse(realIndex)}
-                 >
-                   {openTasks.includes(realIndex) ? "▼" : "▶"}
-               </button>
-             </div>
+              
+              <div className="task-header">
+                <h3
+                  className={
+                    isOverdue ? "task-overdue" : isDueToday ? "task-today" : ""
+                  }
+                >
+                  {task.title}
+                </h3>
 
-             {openTasks.includes(realIndex) && (
-              <>
-                {task.description && (
-                  <> 
-                     {task.description && (
-                <p className="task-description">{task.description}</p>
-              )}
-              {editingIndex === realIndex ? (
+                 <button onClick={() => togglePin(realIndex)}>
+                  {task.pinned ? " 📌ถอนหมุด" : "📍ปักหมุด"}
+                </button>
+
+                <button
+                  className="collapse-btn"
+                  onClick={() => toggleCollapse(realIndex)}
+                >
+                  {openTasks.includes(realIndex) ? "▼" : "▶"}
+                </button>
+
+               
+              </div>
+
+              {openTasks.includes(realIndex) && (
                 <>
-                  <input
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                  />
+                  {task.description && (
+                    <p className="task-description">{task.description}</p>
+                  )}
 
-                  <textarea
-                    value={editingDescription}
-                    onChange={(e) => setEditingDescription(e.target.value)}
-                    rows={2}
-                  />
+                  {editingIndex === realIndex ? (
+                    <>
+                      <div className="edit-form">
+                        <label>📝หัวข้อ</label>
+                        <input
+                          className="edit-input"
+                          value={editingText}
+                          onChange={(e) => setEditingText(e.target.value)}
+                          placeholder="หัวข้อกิจกรรม"
+                        />
 
-                  <input
-                    type="date"
-                    value={editingDueDate}
-                    onChange={(e) => setEditingDueDate(e.target.value)}
-                  />
+                        <label>📌 รายละเอียด</label>
+                        <textarea
+                          className="edit-textarea"
+                          value={editingDescription}
+                          onChange={(e) =>
+                            setEditingDescription(e.target.value)
+                          }
+                          rows={2}
+                          placeholder="รายละเอียดกิจกรรม"
+                        />
 
-                  <select
-                    value={editingPriority}
-                    onChange={(e) => setEditingPriority(e.target.value)}
-                  >
-                    <option>สำคัญมาก</option>
-                    <option>สำคัญปานกลาง</option>
-                    <option>สำคัญน้อย</option>
-                  </select>
+                        <label>📅 วันที่</label>
+                        <input
+                          className="edit-input"
+                          type="date"
+                          value={editingDueDate}
+                          onChange={(e) => setEditingDueDate(e.target.value)}
+                        />
 
-                  <button onClick={() => saveTask(realIndex)}>บันทึก</button>
-                </>
-              ) : (
-                <>
-                  <span
-                    style={{
-                      textDecoration: task.completed ? "line-through" : "none",
-                    }}
-                  >
-                    <div>
-                      {task.dueDate && (
-                        <div>
-                          📅 {task.dueDate} {getDayName(task.dueDate)}
+                        <label>🚩 ความสำคัญ</label>
+                        <select
+                          className="edit-select"
+                          value={editingPriority}
+                          onChange={(e) => setEditingPriority(e.target.value)}
+                        >
+                          <option>สำคัญมาก</option>
+                          <option>สำคัญปานกลาง</option>
+                          <option>สำคัญน้อย</option>
+                        </select>
+
+                        <div className="edit-actions">
+                          <button
+                            className="cancel-edit-btn"
+                            onClick={() => setEditingIndex(null)}
+                          >
+                            ❌ ยกเลิก
+                          </button>
+
+                          <button
+                            className="save-edit-btn"
+                            onClick={() => saveTask(realIndex)}
+                          >
+                            💾 บันทึก
+                          </button>
                         </div>
-                      )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <span
+                        style={{
+                          textDecoration: task.completed
+                            ? "line-through"
+                            : "none",
+                        }}
+                      >
+                        <div>
+                          {task.dueDate && (
+                            <div>
+                             <h4> 📅 {task.dueDate} {getDayName(task.dueDate)} </h4>
+                            </div>
+                          )}
 
-                      {task.priority && (
-                        <div
-                          style={{
-                            color:
-                              task.priority === "สำคัญมาก"
-                                ? "red"
-                                : task.priority === "สำคัญปานกลาง"
-                                  ? "orange"
-                                  : "green",
-                            fontWeight: "bold",
+                          {task.priority && (
+                            <div
+                              style={{
+                                color:
+                                  task.priority === "สำคัญมาก"
+                                    ? "red"
+                                    : task.priority === "สำคัญปานกลาง"
+                                      ? "orange"
+                                      : "green",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              🚩 {task.priority}
+                            </div>
+                          )}
+
+                          {isDueToday && (
+                            <div className="due-today">📌 ต้องทำวันนี้</div>
+                          )}
+
+                          
+                        </div>
+                      </span>
+
+                      <div className="task-actions">
+                        <button
+                          onClick={() => {
+                            setEditingIndex(realIndex);
+                            setEditingText(task.title || task.text || "");
+                            setEditingDescription(task.description || "");
+                            setEditingDueDate(task.dueDate || "");
+                            setEditingPriority(task.priority || "สำคัญปานกลาง");
                           }}
                         >
-                          🚩 {task.priority}
-                        </div>
-                      )}
+                          แก้ไข
+                        </button>
 
-                      {isDueToday && (
-                        <div className="due-today">📌 ต้องทำวันนี้</div>
-                      )}
-                    </div>
-                  </span>
-
-                  <div className="task-actions">
-                    <button
-                      onClick={() => {
-                        setEditingIndex(realIndex);
-                        setEditingText(task.title || task.text || "");
-                        setEditingDescription(task.description || "");
-                        setEditingDueDate(task.dueDate || "");
-                        setEditingPriority(task.priority || "สำคัญปานกลาง");
-                      }}
-                    >
-                      แก้ไข
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setTaskToDelete(realIndex);
-                        setShowConfirm(true);
-                      }}
-                    >
-                      ลบ
-                    </button>
-                    <button onClick={() => toggleCompleted(realIndex)}>
-                      ทำแล้ว{" "}
-                    </button>
-                  </div>
-            </>
-                )}
-            </>
-             )}
-
-            
+                        <button
+                          onClick={() => {
+                            setTaskToDelete(realIndex);
+                            setShowConfirm(true);
+                          }}
+                        >
+                          ลบ
+                        </button>
+                        <button onClick={() => toggleCompleted(realIndex)}>
+                          ทำแล้ว{" "}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </li>
@@ -419,45 +476,39 @@ function App() {
       </ul>
 
       {showConfirm && (
-        <div className="dialog-overlay"
+        <div
+          className="dialog-overlay"
           onClick={() => {
             setShowConfirm(false);
             setTaskToDelete(null);
           }}
         >
-          <div className="dialog-box"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="dialog-box" onClick={(e) => e.stopPropagation()}>
             <h2>🚮 Delete Task</h2>
 
             <p>
               ยืนยันลบกิจกรรมนี้ <br />
-              <strong>"{tasks[taskToDelete]?.title}"
-
-              </strong>
+              <strong>"{tasks[taskToDelete]?.title}"</strong>
             </p>
 
             <div className="dialog-buttons">
               <button
                 onClick={() => {
                   setShowConfirm(false);
-                  setTaskToDelete(null)
+                  setTaskToDelete(null);
                 }}
-                >
-                  ยกเลิก
-                </button>
+              >
+                ยกเลิก
+              </button>
 
-                <button
-                 className="delete-btn"
-                 onClick={confirmDelete}
-                 >
-                  ลบ
-                 </button>
+              <button className="delete-btn" onClick={confirmDelete}>
+                ลบ
+              </button>
             </div>
           </div>
-       </div>
+        </div>
       )}
-   </div>
+    </div>
   );
 }
 
