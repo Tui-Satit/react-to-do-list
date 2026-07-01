@@ -349,7 +349,7 @@ function App() {
         {sortedTasks.map((task, index) => {
           const realIndex = tasks.indexOf(task);
 
-          const today = new Date().toISOString().split("T")[0];
+          const today = formatDate(new Date());
 
           const isOverdue =
             task.dueDate && task.dueDate < today && !task.completed;
