@@ -234,7 +234,7 @@ function App() {
             placeholder="รายละเอียด"
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            rows={3}
+            rows={7}
           />
         </div>
 
@@ -333,7 +333,7 @@ function App() {
                 </h3>
 
                  <button className="pin-btn" onClick={() => togglePin(realIndex)}>
-                  {task.pinned ? " 📌ถอนหมุด" : "📍ปักหมุด"}
+                  {task.pinned ? " 📌" : "📍"}
                 </button>
 
                 <button
@@ -370,7 +370,7 @@ function App() {
                           onChange={(e) =>
                             setEditingDescription(e.target.value)
                           }
-                          rows={2}
+                          rows={7}
                           placeholder="รายละเอียดกิจกรรม"
                         />
 
