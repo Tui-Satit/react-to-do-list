@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { FaClipboardList } from "react-icons/fa";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 function App() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+ 
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
 
@@ -36,6 +41,16 @@ function App() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [openTasks, setOpenTasks] = useState([]);
+
+  function formatDate(date) {
+    return date.toISOString().split("T")[0];
+  }
+
+  const selectedDateText = formatDate(selectedDate);
+
+  const tasksOnSelectedDate = tasks.filter(
+    (task) => task.dueDate === selectedDateText
+  );
 
   function toggleCollapse(index) {
     setOpenTasks((prev) =>
@@ -75,10 +90,6 @@ function App() {
       pinned: false,
     };
 
-   
-
-    
-
     setTasks([...tasks, newItem]);
 
     setNewTitle("");
@@ -89,6 +100,9 @@ function App() {
 
     showToast("Task added ✅");
   }
+
+   
+
 
   function saveTask(indexToSave) {
     if (!editingText.trim()) return;
@@ -219,6 +233,37 @@ function App() {
      </div> 
    */}
 
+      <div className="calendar-box">
+        <h2> Calendar</h2>
+
+        <Calendar
+          onChange={setSelectedDate}
+          value={selectedDate}
+          tileContent={({ date}) => {
+            const dateText = formatDate(date);
+
+            const hasTask = tasks.some((task) => task.dueDate === dateText);
+            
+            return hasTask ? <div className="task-dot">●</div> : null;
+          }}
+          />
+
+          <h3>กิจกรรมวันที่ {selectedDateText}</h3>
+
+          {tasksOnSelectedDate.length === 0 ? (
+            <p className="empty-calendar-task">No tasks on this day</p>
+          ) : (
+            <ul>
+              {tasksOnSelectedDate.map((task, index) => (
+                <li key={index} className="calendar-task">
+                  ✅{task.title}
+                </li>
+              ))}
+            </ul>
+          )
+          }
+      </div>
+
         <div className="title-row">
           <input
             className="task-title-input"
@@ -243,6 +288,7 @@ function App() {
             {!dueDate && <span className="date-placeholder">เลือกวัน</span>}
 
             <input
+              className="date-input"
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}

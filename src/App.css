@@ -369,7 +369,7 @@ ul {
 
 .completed-card {
    opacity: 0.7;
-  border:3px solid #a7a6a5;
+  border:1px solid #a7a6a5;
   background: #a03503;
 }
 
@@ -431,6 +431,18 @@ ul {
   .task-actions button {
     font-size: 14px;
     padding: 8px 4px;
+  }
+
+  .calendar-box {
+    padding: 12px;
+  }
+
+  .react-calendar {
+    font-size: 12px;
+  }
+
+  .react-calendar__tile {
+    padding: 8px 2px;
   }
 }
 .add-controls {
@@ -782,7 +794,7 @@ select {
 .edit-select {
   max-width: 100%;
   box-sizing: border-box;
-  
+
   width: 100%;
   padding: 12px 14px;
   border-radius: 12px;
@@ -862,4 +874,65 @@ select {
  * {
   max-width: 100%;
  }
+
+ .date-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  font-size: 18px;
+  background: white;
+ }
+
+ .calendar-box {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 520px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 18px;
+  background: #eee6de;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+
+ }
+
+ .calendar-box h2,
+ .calendar-box h3 {
+   text-align: center;
+ }
+
+ .react-calendar {
+  width: 100%;
+  max-width: 100%;
+  font-size: 14px;
+  border: none;
+  border-radius: 16px;
+  padding: 10px;
+ }
+
+ .react-calendar__tile {
+  padding: 10px 4px;
+ }
+
+ .task-dot {
+  color: #2563eb;
+  font-size: 18px;
+  line-height: 1;
+}
+
+ .calendar-task {
+  list-style: none;
+  background: white;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 12px;
+ }
+
+ .empty-calendar-task {
+  text-align: center;
+  color: #777;
+ }
+
+
 
