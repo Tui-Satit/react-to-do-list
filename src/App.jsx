@@ -41,6 +41,8 @@ function App() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [openTasks, setOpenTasks] = useState([]);
+ 
+  const [selectedCalendarTask, setSelectedCalendarTask] = useState(null);
 
   function formatDate(date) {
     const year = date.getFullYear();
@@ -257,15 +259,31 @@ function App() {
           {tasksOnSelectedDate.length === 0 ? (
             <p className="empty-calendar-task">No tasks on this day</p>
           ) : (
+            <>
             <ul>
               {tasksOnSelectedDate.map((task, index) => (
-                <li key={index} className="calendar-task">
+                <li key={index} 
+                className="calendar-task"
+                onClick={() => setSelectedCalendarTask(task)}
+                >
                   ✅{task.title}
                 </li>
               ))}
             </ul>
-          )
-          }
+
+            {selectedCalendarTask && (
+              <div className="calendar-task-detail">
+                <h3>{selectedCalendarTask.title}</h3>
+
+                <p>{selectedCalendarTask.description || "ไม่มีรายละเอียด"}</p>
+
+                <p>📅{selectedCalendarTask.dueDate}</p>
+                <p>🚩{selectedCalendarTask.priority}</p>
+              </div>
+            ) }
+            </>
+          )}
+          
       </div>
 
         <div className="title-row">

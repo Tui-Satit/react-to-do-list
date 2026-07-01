@@ -934,5 +934,26 @@ select {
   color: #777;
  }
 
+ .calendar-task {
+  cursor: pointer;
+ }
+
+ .calendar-task-detail {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0,08);
+ }
+
+ .calendar-task-detail h3 {
+  margin-top: 0;
+ }
+
+ .calendar-task-detail p {
+  margin: 8px 0;
+ }
+
 
 
