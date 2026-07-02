@@ -438,7 +438,8 @@ ul {
   }
 
   .react-calendar {
-    font-size: 12px;
+    font-size: 14px;
+
   }
 
   .react-calendar__tile {
@@ -905,10 +906,11 @@ select {
  .react-calendar {
   width: 100%;
   max-width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   border-radius: 16px;
   padding: 10px;
+  margin-top: 20px;
  }
 
  .react-calendar__tile {

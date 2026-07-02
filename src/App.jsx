@@ -166,15 +166,19 @@ function App() {
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
 
+    const aReminder =
+    (a.title || "").toUpperCase() === "REMINDER";
+    const bReminder =
+    (b.title || "").toUpperCase() === "REMINDER";
+
+    if (aReminder && !bReminder) return -1;
+    if (!aReminder && bReminder) return 1;
+
     if (a.completed !== b.completed) {
       return a.completed ? 1 : -1;
     }
 
-    if (!a.completed && b.completed && a.pinned !== b.pinned) {
-      return b.pinned - a.pinned;
-    }
-
-    if (a.completed && b.completed && a.pinned !== b.pinned) {
+    if (a.pinned !== b.pinned) {
       return b.pinned - a.pinned;
     }
 
@@ -190,6 +194,8 @@ function App() {
   const completedTasks = tasks.filter((task) => task.completed).length;
 
   const activeCount = tasks.filter((task) => !task.completed).length;
+
+  
 
   function getDayName(dateString) {
     if (!dateString) return "";
@@ -239,52 +245,7 @@ function App() {
      </div> 
    */}
 
-      <div className="calendar-box">
-        <h2> Calendar</h2>
-
-        <Calendar
-          onChange={setSelectedDate}
-          value={selectedDate}
-          tileContent={({ date}) => {
-            const dateText = formatDate(date);
-
-            const hasTask = tasks.some((task) => task.dueDate === dateText);
-            
-            return hasTask ? <div className="task-dot">●</div> : null;
-          }}
-          />
-
-          <h3>กิจกรรมวันที่ {selectedDateText}</h3>
-
-          {tasksOnSelectedDate.length === 0 ? (
-            <p className="empty-calendar-task">No tasks on this day</p>
-          ) : (
-            <>
-            <ul>
-              {tasksOnSelectedDate.map((task, index) => (
-                <li key={index} 
-                className="calendar-task"
-                onClick={() => setSelectedCalendarTask(task)}
-                >
-                  ✅{task.title}
-                </li>
-              ))}
-            </ul>
-
-            {selectedCalendarTask && (
-              <div className="calendar-task-detail">
-                <h3>{selectedCalendarTask.title}</h3>
-
-                <p>{selectedCalendarTask.description || "ไม่มีรายละเอียด"}</p>
-
-                <p>📅{selectedCalendarTask.dueDate}</p>
-                <p>🚩{selectedCalendarTask.priority}</p>
-              </div>
-            ) }
-            </>
-          )}
-          
-      </div>
+     
 
         <div className="title-row">
           <input
@@ -357,7 +318,62 @@ function App() {
           ทั้งหมด: {totalTasks} | กำลังจะทำ: {activeCount} | เสร็จแล้ว:{" "}
           {completedTasks}
         </p>
+
+       {/* calendar box */}
+        <div className="calendar-box">
+        <h2> Calendar</h2>
+          
+            <Calendar
+          onChange={(date) => {
+            setSelectedDate(date);
+            setSelectedCalendarTask(null);
+          }}
+          value={selectedDate}
+          tileContent={({ date}) => {
+            const dateText = formatDate(date);
+
+            const hasTask = tasks.some((task) => task.dueDate === dateText);
+            
+            return hasTask ? <div className="task-dot">●</div> : null;
+          }}
+          />
+       
+
+          <h3>กิจกรรมวันที่ {selectedDateText}</h3>
+
+          {tasksOnSelectedDate.length === 0 ? (
+            <p className="empty-calendar-task">No tasks on this day</p>
+          ) : (
+            <>
+            <ul>
+              {tasksOnSelectedDate.map((task, index) => (
+                <li key={index} 
+                className="calendar-task"
+                onClick={() => setSelectedCalendarTask(task)}
+                >
+                  ✅{task.title}
+                </li>
+              ))}
+            </ul>
+
+            {selectedCalendarTask && (
+              <div className="calendar-task-detail">
+                <h3>{selectedCalendarTask.title}</h3>
+
+                <p>{selectedCalendarTask.description || "ไม่มีรายละเอียด"}</p>
+
+                <p>📅{selectedCalendarTask.dueDate}</p>
+                <p>🚩{selectedCalendarTask.priority}</p>
+              </div>
+            ) }
+            </>
+          )}
+          
+      </div>  
+      {/*finish calendar box*/}
       </div>
+
+      
 
       <ul>
         {sortedTasks.length === 0 && (
@@ -374,12 +390,15 @@ function App() {
 
           const isDueToday = task.dueDate === today && !task.completed;
 
-        
+          const isReminder =
+                (task.title || "").toUpperCase() === "REMINDER";
 
           return (
             <li
               key={realIndex}
-              className={`task-card  ${
+              className={`task-card  
+                ${isReminder ? "reminder-card" : ""}
+                ${
                 task.pinned ? "pinned-card" : ""
               } ${
                 task.completed ? "completed-card" : ""
@@ -390,11 +409,17 @@ function App() {
               }`}
             >
 
-              
+            
               <div className="task-header">
                 <h3
                   className={
-                    isOverdue ? "task-overdue" : isDueToday ? "task-today" : ""
+                    isReminder
+                      ? "reminder-title"
+                      : isOverdue
+                      ? "task-overdue"
+                      : isDueToday
+                      ? "task-tody"
+                      : ""
                   }
                 >
                   {task.title || task.text || "ไม่มีชื่อกิจกรรม"}
